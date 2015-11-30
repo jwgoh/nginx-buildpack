@@ -42,7 +42,8 @@ curl -L $pcre_tarball_url | tar xvz
     --with-openssl=openssl-${OPENSSL_VERSION} \
     --prefix=/tmp/nginx \
     --with-http_ssl_module \
-    --with-http_realip_module
+    --with-http_realip_module \
+    --with-ipv6
 
   make install
 )
