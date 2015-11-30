@@ -11,9 +11,11 @@
 
 NGINX_VERSION=${NGINX_VERSION-1.9.7}
 PCRE_VERSION=${PCRE_VERSION-8.37}
+OPENSSL_VERSION=${OPENSSL_VERSION-1.0.2d}
 
 nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
-pcre_tarball_url=http://garr.dl.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.bz2
+pcre_tarball_url=http://sourceforge.net/projects/pcre/files/pcre/${PRCRE_VERSION}/pcre-${PRCRE_VERSION}.tar.bz2/download
+openssl_tarball_url=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
@@ -25,15 +27,19 @@ cd $temp_dir
 echo "Temp dir: $temp_dir"
 
 echo "Downloading $nginx_tarball_url"
-curl -L $nginx_tarball_url | tar xzv
+curl -L $nginx_tarball_url | tar xvz
 
 echo "Downloading $pcre_tarball_url"
 (cd nginx-${NGINX_VERSION} && curl -L $pcre_tarball_url | tar xvj )
+
+echo "Downloading $openssl_tarball_url"
+curl -L $pcre_tarball_url | tar xvz
 
 (
   cd nginx-${NGINX_VERSION}
   ./configure \
     --with-pcre=pcre-${PCRE_VERSION} \
+    --with-openssl=openssl-${OPENSSL_VERSION} \
     --prefix=/tmp/nginx \
     --with-http_ssl_module \
     --with-http_realip_module
